@@ -1,0 +1,24 @@
+<h2>Il tuo ordine</h2>
+@if (ordine.elenco().length === 0) {
+  <p>L'ordine è vuoto: <a routerLink="/menu">scegli dal menu</a>.</p>
+} @else {
+  <table class="table">
+    <thead>
+      <tr><th>Piatto</th><th>Quantità</th><th>Subtotale</th><th></th></tr>
+    </thead>
+    <tbody>
+      @for (r of ordine.elenco(); track r.piatto.id) {
+        <tr>
+          <td>{{ r.piatto.nome }}</td>
+          <td>{{ r.quantita }}</td>
+          <td>{{ (r.piatto.prezzo * r.quantita).toFixed(2) }} €</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-outline-danger" (click)="ordine.rimuovi(r.piatto.id)">Togli</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <p class="fs-5">Totale: <strong>{{ ordine.totale().toFixed(2) }} €</strong></p>
+  <button type="button" class="btn btn-outline-secondary" (click)="ordine.svuota()">Svuota l'ordine</button>
+}
